@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}"></head>
+    <body class="d-flex flex-column min-vh-100">
+        <header th:replace="~{layout/plantilla :: header}"></header>
+
+        <main class="container mt-4 flex-grow-1">
+            <div class="row justify-content-center">
+                <div class="col-lg-9">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-success text-white">
+                            <h2 class="h5 mb-0"
+                                th:text="${suculenta.idSuculenta == null} ? #{suculenta.agregar} : #{suculenta.editar}"></h2>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/suculenta/guardar}" th:object="${suculenta}" method="post" novalidate>
+                                <input type="hidden" th:field="*{idSuculenta}"/>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="nombreComun" class="form-label">[[#{suculenta.nombreComun}]]</label>
+                                                <input type="text" class="form-control" th:field="*{nombreComun}"
+                                                       th:errorclass="is-invalid" maxlength="60"/>
+                                                <div class="invalid-feedback" th:errors="*{nombreComun}"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="nombreCientifico" class="form-label">[[#{suculenta.nombreCientifico}]]</label>
+                                                <input type="text" class="form-control" th:field="*{nombreCientifico}"
+                                                       th:errorclass="is-invalid" maxlength="80"/>
+                                                <div class="invalid-feedback" th:errors="*{nombreCientifico}"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="familia" class="form-label">[[#{suculenta.familia}]]</label>
+                                                <input type="text" class="form-control" th:field="*{familia}"
+                                                       th:errorclass="is-invalid" maxlength="50"/>
+                                                <div class="invalid-feedback" th:errors="*{familia}"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="colorPrincipal" class="form-label">[[#{suculenta.colorPrincipal}]]</label>
+                                                <input type="text" class="form-control" th:field="*{colorPrincipal}"
+                                                       th:errorclass="is-invalid" maxlength="40"/>
+                                                <div class="invalid-feedback" th:errors="*{colorPrincipal}"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="alturaCm" class="form-label">[[#{suculenta.alturaCm}]]</label>
+                                                <input type="number" class="form-control" th:field="*{alturaCm}"
+                                                       th:errorclass="is-invalid" min="1" max="500"/>
+                                                <div class="invalid-feedback" th:errors="*{alturaCm}"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="precioEstimado" class="form-label">[[#{suculenta.precioEstimado}]]</label>
+                                                <input type="number" class="form-control" th:field="*{precioEstimado}"
+                                                       th:errorclass="is-invalid" min="0" step="0.01"/>
+                                                <div class="invalid-feedback" th:errors="*{precioEstimado}"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="nivelRiego" class="form-label">[[#{suculenta.nivelRiego}]]</label>
+                                                <select class="form-select" th:field="*{nivelRiego}" th:errorclass="is-invalid">
+                                                    <option value="">[[#{suculenta.seleccione}]]</option>
+                                                    <option value="Bajo">[[#{riego.bajo}]]</option>
+                                                    <option value="Moderado">[[#{riego.moderado}]]</option>
+                                                    <option value="Alto">[[#{riego.alto}]]</option>
+                                                </select>
+                                                <div class="invalid-feedback" th:errors="*{nivelRiego}"></div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="rutaImagen" class="form-label">[[#{suculenta.rutaImagen}]]</label>
+                                                <input type="url" class="form-control" th:field="*{rutaImagen}"
+                                                       th:errorclass="is-invalid" placeholder="https://..."/>
+                                                <div class="form-text">[[#{suculenta.rutaImagen.ayuda}]]</div>
+                                                <div class="invalid-feedback" th:errors="*{rutaImagen}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 text-center mt-3 mt-md-0">
+                                        <p class="fw-semibold">[[#{suculenta.vistaPrevia}]]</p>
+                                        <img th:if="${suculenta.rutaImagen != null and !#strings.isEmpty(suculenta.rutaImagen)}"
+                                             th:src="${suculenta.rutaImagen}" th:alt="${suculenta.nombreComun}"
+                                             class="img-fluid rounded border" style="max-height: 260px;"/>
+                                        <i th:unless="${suculenta.rutaImagen != null and !#strings.isEmpty(suculenta.rutaImagen)}"
+                                           class="fas fa-image fa-5x text-secondary"></i>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 d-flex justify-content-between">
+                                    <a th:href="@{/suculenta/listado}" class="btn btn-outline-secondary">
+                                        <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+                                    </a>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-floppy-disk"></i> [[#{accion.guardar}]]
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{layout/plantilla :: footer}"></footer>
+    </body>
+</html>
