@@ -4,10 +4,15 @@
  */
 package com.practica01;
 
-/**
- *
- * @author barra
- */
-public class ProjectConfig {
-    
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class ProjectConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addRedirectViewController("/", "/suculenta/listado");
+    }
 }
